@@ -1,0 +1,38 @@
+README
+
+Datasets provided:
+- Location and Description of Current Homeless Services
+    - homeless_services_hackathon.json  
+        - About: Contains information about the location and description of current homeless services in San Diego.
+        - Source: 2-1-1 San Diego (https://211.my.site.com/s/service-directory?code=BH)
+    - Data Dictionary: homeless_services_hackathon.json
+        - About: Provides a data dictionary for the homeless services dataset.
+        - Source: Data Science Alliance 
+- Latest Point-in-Time (PIT) Count
+    - 2024_PITC_hackathon.pdf
+        - About: Contains the 2024 PIT count of homeless population in San Diego.
+        - Source: Regional Task Force on Homelessness (RTFH) (https://www.rtfhsd.org/wp-content/uploads/2024/09/2024-PITC-Regional-Cities-Breakdown-revised-Final-June-17-1.pdf)
+    - 2025-PITC-Regional-Cities-BreakdownUpdated.pdf
+        - About: Provides a regional cities breakdown of the 2025 PIT count.
+        - Source: RTFH (https://www.rtfhsd.org/wp-content/uploads/2025/07/2025-PITC-Regional-Cities-Breakdown_Final-06112025.pdf) 
+    - 2025_and_2024_PITC_hackathon.xlsx
+        - About: Contains the 2025 and 2024 PIT count of homeless population in San Diego.
+        - Source: RTFH
+- Socioeconomic and Demographic Data
+    - acs2023_hackathon.csv
+        - About: Contains socioeconomic and demographic data at the zip code level from the American Community Survey (ACS) for 2023.
+        - Source: US Census Bureau - American Community Survey (https://www.census.gov/programs-surveys/acs.html)
+- Public transportation
+    - Transit_Routes_hackathon.csv
+    - Transit_Routes_hackathon.geojson
+        - About: Contains information about public transportation routes in San Diego.
+        - Source: San Diego Association of Governments (SANDAG) (https://geo.sandag.org/portal/apps/experiencebuilder/experience/?id=fad9e9c038c84f799b5378e4cc3ed068)
+    - Transit_Stops_hackathon.csv
+    - Transit_Stops_hackathon.geojson
+        - About: Contains information about public transportation stops in San Diego.
+        - Source: SANDAG (https://geo.sandag.org/portal/apps/experiencebuilder/experience/?id=fad9e9c038c84f799b5378e4cc3ed068)
+- Mapping
+    - sd_zipcodes.geojson
+        - About: Contains geographic data for San Diego zip codes.
+    - sd_zipcode_to_region_crosswalk.pdf
+        - About: Provides a crosswalk between San Diego zip codes and regions.
