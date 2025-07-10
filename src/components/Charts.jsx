@@ -31,18 +31,20 @@ export const ServiceGapChart = ({ data }) => {
     .slice(0, 15)
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+    <ResponsiveContainer width="100%" height={250}>
+      <BarChart data={chartData} margin={{ top: 10, right: 20, left: 20, bottom: 50 }}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis 
           dataKey="zipCode" 
           angle={-45}
           textAnchor="end"
-          height={60}
-          fontSize={12}
+          height={50}
+          fontSize={10}
+          interval={0}
         />
         <YAxis 
-          label={{ value: 'Service Gap Score', angle: -90, position: 'insideLeft' }}
+          label={{ value: 'Gap Score', angle: -90, position: 'insideLeft', style: { fontSize: '11px' } }}
+          fontSize={10}
         />
         <Tooltip 
           formatter={(value, name) => [value, 'Gap Score']}
@@ -51,11 +53,19 @@ export const ServiceGapChart = ({ data }) => {
             if (active && payload && payload.length) {
               const data = payload[0].payload
               return (
-                <div className="bg-white p-3 border rounded shadow">
-                  <p><strong>Zip Code:</strong> {label}</p>
-                  <p><strong>Gap Score:</strong> {data.gapScore}/100</p>
-                  <p><strong>Population:</strong> {data.population.toLocaleString()}</p>
-                  <p><strong>Services:</strong> {data.serviceCount}</p>
+                <div style={{
+                  backgroundColor: 'white',
+                  padding: '12px',
+                  border: '1px solid #ccc',
+                  borderRadius: '6px',
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                  fontSize: '12px',
+                  color: '#333'
+                }}>
+                  <p style={{ margin: '0 0 4px 0' }}><strong>Zip Code:</strong> {label}</p>
+                  <p style={{ margin: '0 0 4px 0' }}><strong>Gap Score:</strong> {data.gapScore}/100</p>
+                  <p style={{ margin: '0 0 4px 0' }}><strong>Population:</strong> {data.population.toLocaleString()}</p>
+                  <p style={{ margin: '0' }}><strong>Services:</strong> {data.serviceCount}</p>
                 </div>
               )
             }
@@ -96,31 +106,41 @@ export const PovertyVsServicesChart = ({ data }) => {
     }))
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <ScatterChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+    <ResponsiveContainer width="100%" height={220}>
+      <ScatterChart data={chartData} margin={{ top: 10, right: 15, left: 10, bottom: 30 }}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis 
           dataKey="povertyRate" 
           type="number"
           domain={[0, 'dataMax + 5']}
-          label={{ value: 'Poverty Rate (%)', position: 'insideBottom', offset: -5 }}
+          label={{ value: 'Poverty Rate (%)', position: 'insideBottom', offset: -5, style: { fontSize: '10px' } }}
+          fontSize={9}
         />
         <YAxis 
           dataKey="serviceCount"
           type="number"
-          label={{ value: 'Number of Services', angle: -90, position: 'insideLeft' }}
+          label={{ value: 'Services', angle: -90, position: 'insideLeft', style: { fontSize: '10px' } }}
+          fontSize={9}
         />
         <Tooltip 
           content={({ active, payload }) => {
             if (active && payload && payload.length) {
               const data = payload[0].payload
               return (
-                <div className="bg-white p-3 border rounded shadow">
-                  <p><strong>Zip Code:</strong> {data.zipCode}</p>
-                  <p><strong>Poverty Rate:</strong> {data.povertyRate.toFixed(1)}%</p>
-                  <p><strong>Services:</strong> {data.serviceCount}</p>
-                  <p><strong>Population:</strong> {data.population.toLocaleString()}</p>
-                  <p><strong>Gap Score:</strong> {data.gapScore?.toFixed(1)}/100</p>
+                <div style={{
+                  backgroundColor: 'white',
+                  padding: '12px',
+                  border: '1px solid #ccc',
+                  borderRadius: '6px',
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                  fontSize: '12px',
+                  color: '#333'
+                }}>
+                  <p style={{ margin: '0 0 4px 0' }}><strong>Zip Code:</strong> {data.zipCode}</p>
+                  <p style={{ margin: '0 0 4px 0' }}><strong>Poverty Rate:</strong> {data.povertyRate.toFixed(1)}%</p>
+                  <p style={{ margin: '0 0 4px 0' }}><strong>Services:</strong> {data.serviceCount}</p>
+                  <p style={{ margin: '0 0 4px 0' }}><strong>Population:</strong> {data.population.toLocaleString()}</p>
+                  <p style={{ margin: '0' }}><strong>Gap Score:</strong> {data.gapScore?.toFixed(1)}/100</p>
                 </div>
               )
             }
@@ -179,17 +199,18 @@ export const ServiceTypeDistribution = ({ data }) => {
   }))
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width="100%" height={200}>
       <PieChart>
         <Pie
           data={chartData}
           cx="50%"
           cy="50%"
           labelLine={false}
-          label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
-          outerRadius={80}
+          label={({ name, percent }) => `${name.split('/')[0]} (${(percent * 100).toFixed(0)}%)`}
+          outerRadius={60}
           fill="#8884d8"
           dataKey="value"
+          style={{ fontSize: '10px' }}
         >
           {chartData.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -239,33 +260,43 @@ export const DemographicChart = ({ data, metric = 'povertyRate' }) => {
     .slice(0, 20)
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+    <ResponsiveContainer width="100%" height={220}>
+      <BarChart data={chartData} margin={{ top: 10, right: 15, left: 20, bottom: 40 }}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis 
           dataKey="zipCode" 
           angle={-45}
           textAnchor="end"
-          height={60}
-          fontSize={12}
+          height={40}
+          fontSize={9}
+          interval={0}
         />
         <YAxis 
-          label={{ value: getMetricLabel(metric), angle: -90, position: 'insideLeft' }}
+          label={{ value: getMetricLabel(metric).split(' ')[0], angle: -90, position: 'insideLeft', style: { fontSize: '10px' } }}
+          fontSize={9}
         />
         <Tooltip 
           content={({ active, payload, label }) => {
             if (active && payload && payload.length) {
               const data = payload[0].payload
               return (
-                <div className="bg-white p-3 border rounded shadow">
-                  <p><strong>Zip Code:</strong> {label}</p>
-                  <p><strong>{getMetricLabel(metric)}:</strong> {
+                <div style={{
+                  backgroundColor: 'white',
+                  padding: '12px',
+                  border: '1px solid #ccc',
+                  borderRadius: '6px',
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                  fontSize: '12px',
+                  color: '#333'
+                }}>
+                  <p style={{ margin: '0 0 4px 0' }}><strong>Zip Code:</strong> {label}</p>
+                  <p style={{ margin: '0 0 4px 0' }}><strong>{getMetricLabel(metric)}:</strong> {
                     metric === 'povertyRate' ? 
                     `${data.value.toFixed(1)}%` : 
                     data.value.toLocaleString()
                   }</p>
-                  <p><strong>Services:</strong> {data.serviceCount}</p>
-                  <p><strong>Gap Score:</strong> {data.gapScore.toFixed(1)}/100</p>
+                  <p style={{ margin: '0 0 4px 0' }}><strong>Services:</strong> {data.serviceCount}</p>
+                  <p style={{ margin: '0' }}><strong>Gap Score:</strong> {data.gapScore.toFixed(1)}/100</p>
                 </div>
               )
             }

@@ -170,8 +170,8 @@ const Sidebar = ({
         <div className="chart-container">
           <ServiceGapChart data={data} />
         </div>
-        <p style={{ fontSize: '0.9rem', color: '#666', marginTop: '0.5rem' }}>
-          Top zip codes by service gap score. Higher scores indicate greater need for services.
+        <p style={{ fontSize: '0.8rem', color: '#666', marginTop: '0.25rem', lineHeight: '1.3' }}>
+          Top areas by gap score (higher = more need)
         </p>
       </div>
 
@@ -181,8 +181,8 @@ const Sidebar = ({
         <div className="chart-container">
           <PovertyVsServicesChart data={data} />
         </div>
-        <p style={{ fontSize: '0.9rem', color: '#666', marginTop: '0.5rem' }}>
-          Relationship between poverty rate and available services. Points colored by gap score.
+        <p style={{ fontSize: '0.8rem', color: '#666', marginTop: '0.25rem', lineHeight: '1.3' }}>
+          Poverty vs services (color = gap score)
         </p>
       </div>
 
@@ -192,8 +192,8 @@ const Sidebar = ({
         <div className="chart-container">
           <ServiceTypeDistribution data={data} />
         </div>
-        <p style={{ fontSize: '0.9rem', color: '#666', marginTop: '0.5rem' }}>
-          Distribution of homeless services by category type.
+        <p style={{ fontSize: '0.8rem', color: '#666', marginTop: '0.25rem', lineHeight: '1.3' }}>
+          Service distribution by type
         </p>
       </div>
 
