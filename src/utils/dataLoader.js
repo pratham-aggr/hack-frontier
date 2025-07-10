@@ -110,13 +110,6 @@ export const mergeDataWithGeography = (geoData, demographicData, key = 'zipCode'
     
     const matchingDemo = demographicData.find(d => d[key]?.toString() === zipCode)
     
-    if (matchingDemo && zipCode) {
-      console.log(`Matched zip ${zipCode} with demo data:`, {
-        population: matchingDemo.population,
-        povertyPopulation: matchingDemo.povertyPopulation,
-        povertyRate: matchingDemo.povertyRate
-      })
-    }
     
     return {
       ...feature,

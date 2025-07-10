@@ -56,10 +56,6 @@ const Map = ({
       fillColor = `rgba(255, ${255 - Math.floor(intensity * 200)}, ${255 - Math.floor(intensity * 200)}, 0.7)`
     }
 
-    // Debug logging for poverty mode
-    if (mapMode === 'poverty' && props.zipCode) {
-      console.log(`Zip ${props.zipCode}: poverty rate = ${props.povertyRate}, color = ${fillColor}`)
-    }
 
     return {
       fillColor,
@@ -130,7 +126,7 @@ const Map = ({
         data={data.processedZipCodes}
         style={getFeatureStyle}
         onEachFeature={onEachFeature}
-        key={`zipcodes-${mapMode}`}
+        key={`zipcodes-${mapMode}-${data.processedZipCodes?.features?.length || 0}`}
       />
 
       {showServices && data.homelessServices && data.homelessServices.map((service, index) => (
