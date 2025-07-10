@@ -1,4 +1,4 @@
-# San Diego Homelessness Dashboard
+# San Diego Homeless Care Compass
 
 An interactive web application that visualizes homelessness service gaps across San Diego County using demographic data, service locations, and transportation accessibility.
 

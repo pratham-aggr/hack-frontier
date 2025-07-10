@@ -17,8 +17,8 @@ function App() {
     return (
       <div className="dashboard">
         <div className="header">
-          <h1>San Diego Homelessness Dashboard</h1>
-          <p>Analyzing service gaps and demographics across San Diego County</p>
+          <h1>San Diego Homeless Care Compass</h1>
+          <p>Analyzing homelessness and service gaps across San Diego County</p>
         </div>
         <div className="loading">
           <div style={{ textAlign: 'center' }}>

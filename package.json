@@ -1,7 +1,7 @@
 {
-  "name": "san-diego-homelessness-dashboard",
+  "name": "san-diego-homeless-care-compass",
   "version": "1.0.0",
-  "description": "Interactive dashboard to visualize homelessness gaps in San Diego",
+  "description": "San Diego Homeless Care Compass - Interactive dashboard to visualize homelessness service gaps",
   "type": "module",
   "scripts": {
     "dev": "vite",
