@@ -255,7 +255,14 @@ export const DemographicChart = ({ data, metric = 'povertyRate' }) => {
       serviceCount: f.properties.serviceCount || 0,
       gapScore: f.properties.serviceGapScore || 0
     }))
-    .filter(d => d.value !== undefined && d.value !== null)
+    .filter(d => {
+      // For poverty rate, keep all values including 0
+      if (metric === 'povertyRate') {
+        return d.value !== undefined && d.value !== null
+      }
+      // For population metrics, filter out 0 values as they're not meaningful
+      return d.value !== undefined && d.value !== null && d.value > 0
+    })
     .sort((a, b) => b.value - a.value)
     .slice(0, 20)
 

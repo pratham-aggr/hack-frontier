@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { 
   ServiceGapChart, 
   PovertyVsServicesChart, 
@@ -14,8 +14,36 @@ const StatCard = ({ title, value, subtitle }) => (
   </div>
 )
 
-const Legend = ({ mapMode }) => {
-  const getLegendItems = () => {
+const CollapsiblePanel = ({ title, children, defaultExpanded = true }) => {
+  const [isExpanded, setIsExpanded] = useState(defaultExpanded)
+
+  return (
+    <div className="panel">
+      <div 
+        className="panel-header"
+        onClick={() => setIsExpanded(!isExpanded)}
+        style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+      >
+        <h3 style={{ margin: 0 }}>{title}</h3>
+        <span style={{ 
+          fontSize: '1.2rem', 
+          transition: 'transform 0.2s ease',
+          transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)'
+        }}>
+          ▶
+        </span>
+      </div>
+      {isExpanded && (
+        <div className="panel-content" style={{ marginTop: '0.75rem' }}>
+          {children}
+        </div>
+      )}
+    </div>
+  )
+}
+
+const Legend = ({ mapMode, showServices }) => {
+  const getMapLegendItems = () => {
     switch (mapMode) {
       case 'serviceGaps':
         return [
@@ -39,23 +67,99 @@ const Legend = ({ mapMode }) => {
           { color: 'rgba(255, 155, 155, 0.7)', label: 'Medium Population' },
           { color: 'rgba(255, 255, 255, 0.7)', label: 'Low Population' }
         ]
+      case 'veterans':
+        return [
+          { color: 'rgba(139, 69, 19, 1)', label: 'High Veteran Population' },
+          { color: 'rgba(139, 69, 19, 0.7)', label: 'Medium Veteran Population' },
+          { color: 'rgba(139, 69, 19, 0.3)', label: 'Low Veteran Population' }
+        ]
+      case 'seniors':
+        return [
+          { color: 'rgba(75, 0, 130, 1)', label: 'High Senior Population' },
+          { color: 'rgba(75, 0, 130, 0.7)', label: 'Medium Senior Population' },
+          { color: 'rgba(75, 0, 130, 0.3)', label: 'Low Senior Population' }
+        ]
+      case 'youth':
+        return [
+          { color: 'rgba(255, 20, 147, 1)', label: 'High Youth Population' },
+          { color: 'rgba(255, 20, 147, 0.7)', label: 'Medium Youth Population' },
+          { color: 'rgba(255, 20, 147, 0.3)', label: 'Low Youth Population' }
+        ]
+      case 'disability':
+        return [
+          { color: 'rgba(70, 130, 180, 1)', label: 'High Disability Population' },
+          { color: 'rgba(70, 130, 180, 0.7)', label: 'Medium Disability Population' },
+          { color: 'rgba(70, 130, 180, 0.3)', label: 'Low Disability Population' }
+        ]
+      case 'income':
+        return [
+          { color: 'rgba(255, 100, 50, 0.7)', label: 'Lower Income (Higher Need)' },
+          { color: 'rgba(178, 178, 105, 0.7)', label: 'Medium Income' },
+          { color: 'rgba(100, 255, 150, 0.7)', label: 'Higher Income (Lower Need)' }
+        ]
       default:
         return []
     }
   }
 
+  const getServiceLegendItems = () => [
+    { color: '#d73027', label: 'Housing/Shelter', shape: '📍' },
+    { color: '#ff8800', label: 'Food Services', shape: '📍' },
+    { color: '#2e8b57', label: 'Healthcare', shape: '📍' },
+    { color: '#8b008b', label: 'Mental Health', shape: '📍' },
+    { color: '#ffd700', label: 'Employment', shape: '📍' },
+    { color: '#808080', label: 'Other Services', shape: '📍' }
+  ]
+
   return (
     <div className="legend">
-      <h4 style={{ marginBottom: '0.5rem', fontSize: '1rem' }}>Legend</h4>
-      {getLegendItems().map((item, index) => (
-        <div key={index} className="legend-item">
-          <div 
-            className="legend-color"
-            style={{ backgroundColor: item.color }}
-          />
-          <span className="legend-label">{item.label}</span>
+      <h4 style={{ marginBottom: '0.5rem', fontSize: '1rem' }}>Map Legend</h4>
+      
+      {/* Zip Code Areas Legend */}
+      <div style={{ marginBottom: '1rem' }}>
+        <h5 style={{ fontSize: '0.9rem', margin: '0 0 0.5rem 0', color: '#555' }}>Zip Code Areas</h5>
+        {getMapLegendItems().map((item, index) => (
+          <div key={index} className="legend-item">
+            <div 
+              className="legend-color"
+              style={{ backgroundColor: item.color }}
+            />
+            <span className="legend-label">{item.label}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Service Categories Legend */}
+      {showServices && (
+        <div>
+          <h5 style={{ fontSize: '0.9rem', margin: '0 0 0.5rem 0', color: '#555' }}>Service Categories</h5>
+          {getServiceLegendItems().map((item, index) => (
+            <div key={index} className="legend-item">
+              <div 
+                style={{ 
+                  width: '20px', 
+                  height: '20px', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  marginRight: '0.5rem',
+                  fontSize: '10px'
+                }}
+              >
+                <div style={{
+                  width: '8px',
+                  height: '12px',
+                  backgroundColor: item.color,
+                  borderRadius: '50% 50% 50% 0',
+                  transform: 'rotate(-45deg)',
+                  border: '1px solid #333'
+                }} />
+              </div>
+              <span className="legend-label" style={{ fontSize: '0.8rem' }}>{item.label}</span>
+            </div>
+          ))}
         </div>
-      ))}
+      )}
     </div>
   )
 }
@@ -70,13 +174,14 @@ const Sidebar = ({
   showTransit,
   setShowTransit,
   transitRadius,
-  setTransitRadius
+  setTransitRadius,
+  demographicMetric,
+  setDemographicMetric
 }) => {
   return (
     <div className="sidebar">
       {/* Statistics Panel */}
-      <div className="panel">
-        <h3>Key Statistics</h3>
+      <CollapsiblePanel title="Key Statistics" defaultExpanded={true}>
         <div className="stats-grid">
           <StatCard 
             title="Total Population" 
@@ -104,22 +209,95 @@ const Sidebar = ({
             value={stats.highestGapZipCode || 'N/A'} 
           />
         </div>
-      </div>
+      </CollapsiblePanel>
 
       {/* Map Controls */}
-      <div className="panel">
-        <h3>Map Controls</h3>
+      <CollapsiblePanel title="Map Controls" defaultExpanded={true}>
         <div className="controls">
           <div className="control-group">
             <label>Map View Mode</label>
-            <select 
-              value={mapMode} 
-              onChange={(e) => setMapMode(e.target.value)}
-            >
-              <option value="serviceGaps">Service Gaps</option>
-              <option value="poverty">Poverty Rate</option>
-              <option value="population">Population Density</option>
-            </select>
+            <div className="radio-group">
+              <label className="radio-item">
+                <input 
+                  type="radio" 
+                  name="mapMode" 
+                  value="serviceGaps" 
+                  checked={mapMode === 'serviceGaps'}
+                  onChange={(e) => setMapMode(e.target.value)}
+                />
+                Service Gaps
+              </label>
+              <label className="radio-item">
+                <input 
+                  type="radio" 
+                  name="mapMode" 
+                  value="poverty" 
+                  checked={mapMode === 'poverty'}
+                  onChange={(e) => setMapMode(e.target.value)}
+                />
+                Poverty Rate
+              </label>
+              <label className="radio-item">
+                <input 
+                  type="radio" 
+                  name="mapMode" 
+                  value="population" 
+                  checked={mapMode === 'population'}
+                  onChange={(e) => setMapMode(e.target.value)}
+                />
+                Population Density
+              </label>
+              <label className="radio-item">
+                <input 
+                  type="radio" 
+                  name="mapMode" 
+                  value="veterans" 
+                  checked={mapMode === 'veterans'}
+                  onChange={(e) => setMapMode(e.target.value)}
+                />
+                Veterans
+              </label>
+              <label className="radio-item">
+                <input 
+                  type="radio" 
+                  name="mapMode" 
+                  value="seniors" 
+                  checked={mapMode === 'seniors'}
+                  onChange={(e) => setMapMode(e.target.value)}
+                />
+                Seniors
+              </label>
+              <label className="radio-item">
+                <input 
+                  type="radio" 
+                  name="mapMode" 
+                  value="youth" 
+                  checked={mapMode === 'youth'}
+                  onChange={(e) => setMapMode(e.target.value)}
+                />
+                Youth
+              </label>
+              <label className="radio-item">
+                <input 
+                  type="radio" 
+                  name="mapMode" 
+                  value="disability" 
+                  checked={mapMode === 'disability'}
+                  onChange={(e) => setMapMode(e.target.value)}
+                />
+                Disability
+              </label>
+              <label className="radio-item">
+                <input 
+                  type="radio" 
+                  name="mapMode" 
+                  value="income" 
+                  checked={mapMode === 'income'}
+                  onChange={(e) => setMapMode(e.target.value)}
+                />
+                Income
+              </label>
+            </div>
           </div>
 
           <div className="control-group">
@@ -161,53 +339,47 @@ const Sidebar = ({
           )}
         </div>
 
-        <Legend mapMode={mapMode} />
-      </div>
+        <Legend mapMode={mapMode} showServices={showServices} />
+      </CollapsiblePanel>
 
       {/* Service Gap Analysis */}
-      <div className="panel">
-        <h3>Service Gap Analysis</h3>
+      <CollapsiblePanel title="Service Gap Analysis" defaultExpanded={true}>
         <div className="chart-container">
           <ServiceGapChart data={data} />
         </div>
         <p style={{ fontSize: '0.8rem', color: '#666', marginTop: '0.25rem', lineHeight: '1.3' }}>
           Top areas by gap score (higher = more need)
         </p>
-      </div>
+      </CollapsiblePanel>
 
       {/* Poverty vs Services */}
-      <div className="panel">
-        <h3>Poverty vs Services</h3>
+      <CollapsiblePanel title="Poverty vs Services" defaultExpanded={false}>
         <div className="chart-container">
           <PovertyVsServicesChart data={data} />
         </div>
         <p style={{ fontSize: '0.8rem', color: '#666', marginTop: '0.25rem', lineHeight: '1.3' }}>
           Poverty vs services (color = gap score)
         </p>
-      </div>
+      </CollapsiblePanel>
 
       {/* Service Type Distribution */}
-      <div className="panel">
-        <h3>Service Types</h3>
+      <CollapsiblePanel title="Service Types" defaultExpanded={false}>
         <div className="chart-container">
           <ServiceTypeDistribution data={data} />
         </div>
         <p style={{ fontSize: '0.8rem', color: '#666', marginTop: '0.25rem', lineHeight: '1.3' }}>
           Service distribution by type
         </p>
-      </div>
+      </CollapsiblePanel>
 
       {/* Demographics Chart */}
-      <div className="panel">
-        <h3>Demographics</h3>
+      <CollapsiblePanel title="Demographics" defaultExpanded={false}>
         <div className="controls">
           <div className="control-group">
             <label>Demographic Metric</label>
             <select 
-              onChange={(e) => {
-                // This would be passed as a prop to update the demographic chart
-                console.log('Selected metric:', e.target.value)
-              }}
+              value={demographicMetric}
+              onChange={(e) => setDemographicMetric(e.target.value)}
             >
               <option value="povertyRate">Poverty Rate</option>
               <option value="veteranPopulation">Veteran Population</option>
@@ -218,9 +390,9 @@ const Sidebar = ({
           </div>
         </div>
         <div className="chart-container">
-          <DemographicChart data={data} metric="povertyRate" />
+          <DemographicChart data={data} metric={demographicMetric} key={demographicMetric} />
         </div>
-      </div>
+      </CollapsiblePanel>
     </div>
   )
 }

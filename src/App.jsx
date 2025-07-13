@@ -12,6 +12,7 @@ function App() {
   const [showServices, setShowServices] = useState(true)
   const [showTransit, setShowTransit] = useState(false)
   const [transitRadius, setTransitRadius] = useState(0.5)
+  const [demographicMetric, setDemographicMetric] = useState('povertyRate')
 
   if (loading) {
     return (
@@ -92,6 +93,8 @@ function App() {
           setShowTransit={setShowTransit}
           transitRadius={transitRadius}
           setTransitRadius={setTransitRadius}
+          demographicMetric={demographicMetric}
+          setDemographicMetric={setDemographicMetric}
         />
       </div>
     </div>

@@ -91,6 +91,33 @@ body {
   font-weight: 600;
 }
 
+.panel-header {
+  user-select: none;
+  border-radius: 4px;
+  padding: 0.25rem;
+  margin: -0.25rem;
+  transition: background-color 0.2s ease;
+}
+
+.panel-header:hover {
+  background-color: rgba(102, 126, 234, 0.05);
+}
+
+.panel-content {
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .stats-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -147,6 +174,45 @@ body {
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 0.9rem;
+}
+
+.radio-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.radio-item {
+  display: flex;
+  align-items: center;
+  padding: 0.4rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f8f9fa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.8rem;
+  font-weight: normal;
+  margin-bottom: 0;
+}
+
+.radio-item:hover {
+  background: #e9ecef;
+  border-color: #667eea;
+}
+
+.radio-item input[type="radio"] {
+  margin-right: 0.4rem;
+  margin-bottom: 0;
+  accent-color: #667eea;
+}
+
+.radio-item input[type="radio"]:checked + label,
+.radio-item:has(input[type="radio"]:checked) {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
 }
 
 .legend {
